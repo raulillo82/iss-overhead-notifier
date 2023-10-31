@@ -1,5 +1,5 @@
 import requests
-from datetime import datetime
+from datetime import datetime, timezone
 import smtplib
 import time
 
@@ -18,7 +18,7 @@ def is_position_in_range():
     in_range = False
     if MY_LAT - iss_latitude <= abs(5) and MY_LONG - iss_longitude <= abs(5):
         in_range = True
-        print("ISS over your head")
+        #print("ISS over your head")
     return in_range
 
 
@@ -38,10 +38,12 @@ def is_night():
     sunrise = int(data["results"]["sunrise"].split("T")[1].split(":")[0])
     sunset = int(data["results"]["sunset"].split("T")[1].split(":")[0])
 
-    time_now = datetime.now()
+    time_now = datetime.now(timezone.utc)
     if time_now.hour >= sunset or time_now.hour <= sunrise:
         is_night = True
-        print("It is night!")
+        #print("It is night!")
+    else:
+        #print("It is NOT night!")
     return is_night
 
 def send_email():
@@ -71,7 +73,7 @@ def send_email():
 
 while True:
     if is_position_in_range() and is_night():
-        print("Sending email")
+        #print("Sending email")
         send_email()
     print("Waiting for 60s before re-checking")
     time.sleep(60)
