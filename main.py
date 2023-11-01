@@ -42,8 +42,6 @@ def is_night():
     if time_now.hour >= sunset or time_now.hour <= sunrise:
         is_night = True
         #print("It is night!")
-    else:
-        #print("It is NOT night!")
     return is_night
 
 def send_email():
